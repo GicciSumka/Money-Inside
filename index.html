@@ -3,46 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Идеи Заработка</title>
+    <title>Монетизация Идей</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <header class="app-header">
-            <h1 id="app-title">💰 Идеи Заработка</h1>
-            <button id="close-button" class="glass-button close-button">Закрыть</button>
-        </header>
-        <nav class="categories-nav" id="categories-nav">
-            <!-- Категории будут загружены сюда через JS -->
+        <!-- Навигация -->
+        <nav class="nav-bar">
+            <button class="nav-btn" id="backBtn" style="display: none;">🔙 Назад</button>
+            <button class="nav-btn" id="homeBtn" style="display: none;">🏠 Главная</button>
+            <div class="nav-title" id="navTitle">Монетизация Идей</div>
         </nav>
-        <main class="app-content" id="app-content">
-            <section id="category-ideas-section" class="hidden content-section">
-                <h2 id="category-title" class="section-title"></h2>
-                <div id="ideas-list" class="ideas-grid">
-                    <!-- Идеи будут загружены сюда через JS -->
-                </div>
-                <button id="random-idea-button" class="glass-button action-button">Случайная идея</button>
-            </section>
 
-            <section id="reviews-section" class="hidden content-section">
-                <h2 class="section-title">Отзывы</h2>
-                <div id="reviews-list" class="reviews-grid">
-                    <!-- Отзывы будут загружены сюда через JS -->
+        <!-- Главный экран -->
+        <div class="screen active" id="homeScreen">
+            <div class="screen-content">
+                <h1 class="main-title">Добро пожаловать!</h1>
+                <div class="menu-grid">
+                    <div class="menu-card" data-screen="categories">
+                        <div class="card-icon">📂</div>
+                        <div class="card-title">Категории</div>
+                        <div class="card-desc">Выберите направление</div>
+                    </div>
+                    <div class="menu-card" data-screen="daily">
+                        <div class="card-icon">⭐</div>
+                        <div class="card-title">Схема дня</div>
+                        <div class="card-desc">Лучшая идея сегодня</div>
+                    </div>
+                    <div class="menu-card" data-screen="reviews">
+                        <div class="card-icon">💬</div>
+                        <div class="card-title">Отзывы</div>
+                        <div class="card-desc">Что говорят пользователи</div>
+                    </div>
+                    <div class="menu-card" data-screen="premium">
+                        <div class="card-icon">💎</div>
+                        <div class="card-title">Премиум</div>
+                        <div class="card-desc">Эксклюзивные схемы</div>
+                    </div>
+                    <div class="menu-card" data-screen="profile">
+                        <div class="card-icon">👤</div>
+                        <div class="card-title">Профиль</div>
+                        <div class="card-desc">Ваш аккаунт</div>
+                    </div>
+                    <div class="menu-card" data-screen="referrals">
+                        <div class="card-icon">👥</div>
+                        <div class="card-title">Рефералы</div>
+                        <div class="card-desc">Пригласи друга</div>
+                    </div>
                 </div>
-            </section>
+            </div>
+        </div>
 
-            <section id="profile-section" class="hidden content-section">
-                <h2 class="section-title">👤 Профиль</h2>
-                <div class="profile-info glass-card">
-                    <p><strong>ID Пользователя:</strong> <span id="user-id"></span></p>
-                    <p><strong>Имя Пользователя:</strong> <span id="username"></span></p>
-                    <p><strong>Статус:</strong> <span id="user-status">Обычный</span></p>
-                    <p><strong>Приглашено друзей:</strong> <span id="referrals-count">0</span></p>
+        <!-- Экран категорий -->
+        <div class="screen" id="categoriesScreen">
+            <div class="screen-content">
+                <h2 class="screen-title">Выберите категорию</h2>
+                <div class="categories-grid">
+                    <div class="category-card" data-category="online">
+                        <div class="category-icon">💻</div>
+                        <div class="category-title">Онлайн</div>
+                        <div class="category-count">6 идей</div>
+                    </div>
+                    <div class="category-card" data-category="social">
+                        <div class="category-icon">🎬</div>
+                        <div class="category-title">TikTok / соцсети</div>
+                        <div class="category-count">5 идей</div>
+                    </div>
+                    <div class="category-card" data-category="noskills">
+                        <div class="category-icon">🧠</div>
+                        <div class="category-title">Без навыков</div>
+                        <div class="category-count">5 идей</div>
+                    </div>
+                    <div class="category-card" data-category="quick">
+                        <div class="category-icon">⚡</div>
+                        <div class="category-title">Быстрые деньги</div>
+                        <div class="category-count">5 идей</div>
+                    </div>
                 </div>
-            </section>
-        </main>
+            </div>
+        </div>
+
+        <!-- Экран категории -->
+        <div class="screen" id="categoryViewScreen">
+            <div class="screen-content">
+                <h2 class="screen-title" id="categoryTitle">Категория</h2>
+                <div class="idea-card">
+                    <div class="idea-number" id="ideaNumber">Идея #1</div>
+                    <h3 class="idea-title" id="ideaTitle">Название идеи</h3>
+                    <p class="idea-description" id="ideaDescription">Описание идеи</p>
+                    <div class="idea-profit">💰 Доход: <span id="ideaProfit">0₽</span></div>
+                    <div class="idea-time">⏱️ Время: <span id="ideaTime">0 часов</span></div>
+                </div>
+                <div class="idea-actions">
+                    <button class="action-btn primary" id="nextIdeaBtn">➡️ Следующая</button>
+                    <button class="action-btn secondary" id="randomIdeaBtn">🎲 Случайная</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран схемы дня -->
+        <div class="screen" id="dailyScreen">
+            <div class="screen-content">
+                <h2 class="screen-title">⭐ Схема дня</h2>
+                <div class="daily-card">
+                    <div class="daily-badge">Лучшая за сегодня</div>
+                    <h3 class="idea-title" id="dailyTitle">Название схемы</h3>
+                    <p class="idea-description" id="dailyDescription">Описание схемы</p>
+                    <div class="idea-profit">💰 Доход: <span id="dailyProfit">0₽</span></div>
+                    <div class="idea-time">⏱️ Время: <span id="dailyTime">0 часов</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран премиум -->
+        <div class="screen" id="premiumScreen">
+            <div class="screen-content">
+                <div id="premium-buy-view">
+                    <h2 class="screen-title">💎 Премиум доступ</h2>
+                    <div class="premium-card">
+                        <div class="premium-icon">💎</div>
+                        <h3>Эксклюзивные схемы</h3>
+                        <p>Получите доступ к закрытым методам монетизации</p>
+                        <ul class="premium-features">
+                            <li>🔓 Доступ к премиум схемам</li>
+                            <li>🚀 Приоритетная поддержка</li>
+                            <li>📊 Аналитика доходности</li>
+                            <li>💡 Персональные рекомендации</li>
+                        </ul>
+                        <button class="premium-btn">Купить премиум - 990₽</button>
+                    </div>
+                </div>
+                <div id="premium-active-view" style="display: none;">
+                    <h2 class="screen-title">💎 Премиум активен</h2>
+                    <div class="premium-card">
+                        <p>Ваш премиум-доступ активен до:</p>
+                        <h3 id="premium-end-date">-</h3>
+                        <p>Вы получаете доступ ко всем эксклюзивным материалам.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран профиля -->
+        <div class="screen" id="profileScreen">
+            <div class="screen-content">
+                <h2 class="screen-title">👤 Профиль</h2>
+                <div class="profile-card">
+                    <div class="profile-avatar" id="userAvatar">👤</div>
+                    <div class="profile-name" id="userName">Пользователь</div>
+                    <div class="profile-username" id="userUsername">@username</div>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="viewedIdeas">0</div>
+                            <div class="stat-label">Просмотрено идей</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="favoriteIdeas">0</div>
+                            <div class="stat-label">Избранных</div>
+                        </div>
+                    </div>
+                    <button class="close-app-btn" id="closeAppBtn">Закрыть приложение</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран отзывов -->
+        <div class="screen" id="reviewsScreen">
+            <div class="screen-content">
+                <h2 class="screen-title">Отзывы</h2>
+                <div class="review-carousel">
+                    <div class="review-card" id="reviewCard">
+                        <div class="review-avatar" id="reviewAvatar">👤</div>
+                        <div class="review-name" id="reviewName">Имя</div>
+                        <div class="review-rating" id="reviewRating">⭐⭐⭐⭐⭐</div>
+                        <p class="review-text" id="reviewText">Отзыв</p>
+                        <div class="review-date" id="reviewDate">01.01.2024</div>
+                    </div>
+                    <button class="next-review-btn" id="nextReviewBtn">Следующий отзыв ➡️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран рефералов -->
+        <div class="screen" id="referralsScreen">
+            <div class="screen-content">
+                <h2 class="screen-title">Пригласи друга</h2>
+
+                <div class="referral-card">
+                    <div class="referral-info">
+                        <p>Ваш ID: <strong id="refUserId">-</strong></p>
+                        <p>Приглашено: <strong id="refCount">0</strong> друзей</p>
+                    </div>
+                    <div class="referral-link-section">
+                        <input type="text" id="refLinkInput" readonly value="">
+                        <button id="refCopyBtn">Копировать</button>
+                    </div>
+                    <button class="action-btn primary" id="refInviteBtn">Пригласить друзей</button>
+                </div>
+
+                <div class="rewards-progress">
+                    <h3 class="rewards-title">Награды за приглашения</h3>
+                    <div class="reward-card active" id="rewardCard-1">
+                        <p class="reward-goal"><strong>1 друг:</strong> +1 бонусная идея</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" id="progress-1" style="width: 0%;"></div></div>
+                        <p class="progress-text" id="progress-text-1">0 / 1</p>
+                    </div>
+                    <div class="reward-card" id="rewardCard-3">
+                        <p class="reward-goal"><strong>3 друга:</strong> Доступ к премиум</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" id="progress-3" style="width: 0%;"></div></div>
+                        <p class="progress-text" id="progress-text-3">0 / 3</p>
+                    </div>
+                    <div class="reward-card" id="rewardCard-10">
+                        <p class="reward-goal"><strong>10 друзей:</strong> PRO статус</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" id="progress-10" style="width: 0%;"></div></div>
+                        <p class="progress-text" id="progress-text-10">0 / 10</p>
+                    </div>
+                </div>
+
+                <div class="bonus-event-card">
+                    <p>🔥 <strong>Событие:</strong> Удвоение награды активно!</p>
+                    <p>Осталось: <span id="bonusTimeLeft">23:59:59</span></p>
+                </div>
+            </div>
+        </div>
+
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
