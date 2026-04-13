@@ -26,6 +26,11 @@
                         <div class="card-title">Категории</div>
                         <div class="card-desc">Выберите направление</div>
                     </div>
+                    <div class="menu-card" data-screen="schemes">
+                        <div class="card-icon">💡</div>
+                        <div class="card-title">Схемы</div>
+                        <div class="card-desc">Все доступные схемы</div>
+                    </div>
                     <div class="menu-card" data-screen="daily">
                         <div class="card-icon">⭐</div>
                         <div class="card-title">Схема дня</div>
@@ -63,23 +68,34 @@
                     <div class="category-card" data-category="online">
                         <div class="category-icon">💻</div>
                         <div class="category-title">Онлайн</div>
-                        <div class="category-count">6 идей</div>
+                        <div class="category-count">25 идей</div>
                     </div>
                     <div class="category-card" data-category="social">
                         <div class="category-icon">🎬</div>
                         <div class="category-title">TikTok / соцсети</div>
-                        <div class="category-count">5 идей</div>
+                        <div class="category-count">25 идей</div>
                     </div>
                     <div class="category-card" data-category="noskills">
                         <div class="category-icon">🧠</div>
                         <div class="category-title">Без навыков</div>
-                        <div class="category-count">5 идей</div>
+                        <div class="category-count">27 идей</div>
                     </div>
                     <div class="category-card" data-category="quick">
                         <div class="category-icon">⚡</div>
                         <div class="category-title">Быстрые деньги</div>
-                        <div class="category-count">5 идей</div>
+                        <div class="category-count">21 идея</div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран схем -->
+        <div class="screen" id="schemesScreen">
+            <div class="screen-content">
+                <h2 class="screen-title">Все Схемы</h2>
+                <div class="schemes-list" id="schemesList">
+                    <!-- Схемы будут загружены сюда через JavaScript -->
+                    <p>Загрузка схем...</p>
                 </div>
             </div>
         </div>
@@ -207,17 +223,17 @@
                     <div class="reward-card active" id="rewardCard-1">
                         <p class="reward-goal"><strong>1 друг:</strong> +1 бонусная идея</p>
                         <div class="progress-bar-container"><div class="progress-bar-fill" id="progress-1" style="width: 0%;"></div></div>
-                        <p class="progress-text" id="progress-text-1">0 / 1</p>
+                        <p class="progress-text" id="progress-1-text">0 / 1</p>
                     </div>
                     <div class="reward-card" id="rewardCard-3">
                         <p class="reward-goal"><strong>3 друга:</strong> Доступ к премиум</p>
                         <div class="progress-bar-container"><div class="progress-bar-fill" id="progress-3" style="width: 0%;"></div></div>
-                        <p class="progress-text" id="progress-text-3">0 / 3</p>
+                        <p class="progress-text" id="progress-3-text">0 / 3</p>
                     </div>
                     <div class="reward-card" id="rewardCard-10">
                         <p class="reward-goal"><strong>10 друзей:</strong> PRO статус</p>
                         <div class="progress-bar-container"><div class="progress-bar-fill" id="progress-10" style="width: 0%;"></div></div>
-                        <p class="progress-text" id="progress-text-10">0 / 10</p>
+                        <p class="progress-text" id="progress-10-text">0 / 10</p>
                     </div>
                 </div>
 
@@ -228,6 +244,15 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="customAlertModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="customAlertTitle" class="modal-title">Внимание</h3>
+            <p id="customAlertMessage" class="modal-message"></p>
+            <button class="action-btn primary modal-button" id="customAlertOkBtn">ОК</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
