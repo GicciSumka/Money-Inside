@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Идеи Заработка</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1 id="app-title">💰 Идеи Заработка</h1>
+            <button id="close-button" class="glass-button close-button">Закрыть</button>
+        </header>
+        <nav class="categories-nav" id="categories-nav">
+            <!-- Категории будут загружены сюда через JS -->
+        </nav>
+        <main class="app-content" id="app-content">
+            <section id="category-ideas-section" class="hidden content-section">
+                <h2 id="category-title" class="section-title"></h2>
+                <div id="ideas-list" class="ideas-grid">
+                    <!-- Идеи будут загружены сюда через JS -->
+                </div>
+                <button id="random-idea-button" class="glass-button action-button">Случайная идея</button>
+            </section>
+
+            <section id="reviews-section" class="hidden content-section">
+                <h2 class="section-title">Отзывы</h2>
+                <div id="reviews-list" class="reviews-grid">
+                    <!-- Отзывы будут загружены сюда через JS -->
+                </div>
+            </section>
+
+            <section id="profile-section" class="hidden content-section">
+                <h2 class="section-title">👤 Профиль</h2>
+                <div class="profile-info glass-card">
+                    <p><strong>ID Пользователя:</strong> <span id="user-id"></span></p>
+                    <p><strong>Имя Пользователя:</strong> <span id="username"></span></p>
+                    <p><strong>Статус:</strong> <span id="user-status">Обычный</span></p>
+                    <p><strong>Приглашено друзей:</strong> <span id="referrals-count">0</span></p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
