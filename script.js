@@ -1,335 +1,425 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const categoriesNav = document.getElementById('categories-nav');
-    const appContent = document.getElementById('app-content');
-    const categoryIdeasSection = document.getElementById('category-ideas-section');
-    const categoryTitle = document.getElementById('category-title');
-    const ideasList = document.getElementById('ideas-list');
-    const randomIdeaButton = document.getElementById('random-idea-button');
-    const reviewsSection = document.getElementById('reviews-section');
-    const reviewsList = document.getElementById('reviews-list');
-    const profileSection = document.getElementById('profile-section');
-    const userIdSpan = document.getElementById('user-id');
-    const usernameSpan = document.getElementById('username');
-    const userStatusSpan = document.getElementById('user-status');
-    const referralsCountSpan = document.getElementById('referrals-count');
-    const closeButton = document.getElementById('close-button');
 
-    let currentCategory = null;
-
-    // --- Данные (внутренние, без сервера) ---
-    const appData = {
-        categories: {
-            "Онлайн": {
-                ideas: [
-                    "Написание коротких текстов и статей для блогов и сайтов (копирайтинг).",
-                    "Участие в онлайн-опросах за вознаграждение (платформы вроде Anketolog, Toloka).",
-                    "Выполнение микрозадач на краудсорсинговых платформах (Яндекс.Толока, Amazon Mechanical Turk).",
-                    "Модерация онлайн-сообществ, форумов или комментариев в социальных сетях.",
-                    "Тестирование сайтов и приложений за плату, поиск ошибок и недочетов.",
-                    "Виртуальный ассистент: помощь предпринимателям с рутинными задачами (почта, календарь).",
-                    "Расшифровка аудио- и видеозаписей в текст (транскрибация).",
-                    "Создание и продажа простых дизайнов (открытки, баннеры) в онлайн-редакторах (Canva).",
-                    "Ведение аккаунтов в социальных сетях для малого бизнеса (контент, ответы на комментарии).",
-                    "Перевод текстов с одного языка на другой (используя онлайн-переводчики с последующей корректурой).",
-                    "Создание обучающих видеоуроков по простым программам или навыкам.",
-                    "Продажа своих фотографий на фотостоках (Unsplash, Pexels - иногда с донатами или рефералами).",
-                    "Написание отзывов и комментариев за деньги на различных платформах.",
-                    "Участие в партнёрских программах интернет-магазинов (получение процента от продаж по вашей ссылке).",
-                    "Проведение онлайн-консультаций по своим компетенциям (например, по выбору ноутбука)."
-                ],
-                schemes: [
-                    "<b>Схема: Создание и монетизация тематического Telegram-канала.</b>\n1. Выберите нишу, в которой разбираетесь (юмор, новости, лайфхаки).\n2. Создайте канал и регулярно публикуйте интересный контент.\n3. Набирайте аудиторию (взаимопиар, бесплатные каталоги).\n4. Размещайте рекламу других каналов или продуктов (прямые продажи, биржи рекламы).",
-                    "<b>Схема: Заработок на выполнении микрозадач.</b>\n1. Зарегистрируйтесь на платформах типа Яндекс.Толока или Amazon Mechanical Turk.\n2. Выполняйте простые задания: разметка изображений, классификация контента, проверка данных.\n3. Накопите минимальную сумму и выведите деньги (часто от 1$).\n4. Чем больше заданий, тем выше рейтинг и доступ к более дорогим задачам.",
-                    "<b>Схема: Копирайтинг/рерайтинг для новичков.</b>\n1. Зарегистрируйтесь на биржах копирайтинга (Text.ru, Etxt, Advego).\n2. Начните с простых заказов на рерайтинг (переписывание готового текста своими словами).\n3. Постепенно повышайте свой рейтинг и портфолио.\n4. Берите более дорогие заказы, специализируйтесь на определённых темах.",
-                    "<b>Схема: Онлайн-опросы и тестирование сайтов.</b>\n1. Зарегистрируйтесь на сайтах с платными опросами (Anketolog, Opinion, InternetOpros) и платформах для тестирования UX (UserTesting, Test.io).\n2. Заполните свой профиль максимально подробно для получения большего количества опросов.\n3. Регулярно проверяйте наличие новых опросов и честно отвечайте на вопросы.\n4. Выводите заработанные средства удобным способом (WebMoney, PayPal, на телефон).",
-                    "<b>Схема: Ведение социальных сетей для малого бизнеса.</b>\n1. Найдите небольшие местные бизнесы (кафе, салоны красоты), которым нужна помощь с соцсетями.\n2. Предложите им свои услуги по созданию контент-плана, написанию постов, ответам на комментарии (начните с бесплатного пробного периода).\n3. Используйте бесплатные инструменты для дизайна (Canva) и планирования постов (Buffer, Later).\n4. Постепенно увеличивайте стоимость своих услуг по мере наработки портфолио и улучшения результатов."
-                ]
-            },
-            "TikTok / соцсети": {
-                ideas: [
-                    "Создание коротких вирусных видео для TikTok на актуальные темы (тренды, лайфхаки, юмор).",
-                    "Ведение тематического аккаунта в Instagram/TikTok (например, о книгах, готовке, фитнесе).",
-                    "Участие в челленджах и конкурсах в соцсетях с денежными призами.",
-                    "Создание и продажа пресетов для обработки фото в Instagram (через Telegram-каналы).",
-                    "Монтаж коротких видео для других блогеров или компаний (используя бесплатные редакторы).",
-                    "Написание сценариев для TikTok-видео на заказ.",
-                    "Продвижение партнёрских ссылок в TikTok/Instagram (товары, сервисы).",
-                    "Создание и продажа стикерпаков для Telegram/WhatsApp по популярным мемам.",
-                    "Проведение прямых эфиров в TikTok и сбор донатов от зрителей.",
-                    "Создание обучающего контента по использованию соцсетей (например, как набрать подписчиков).",
-                    "Ведение аккаунтов в Pinterest для малого бизнеса (создание пинов, подбор идей).",
-                    "Помощь в поиске трендовой музыки и звуков для TikTok-видео.",
-                    "Создание эстетичных сторис для Instagram на заказ.",
-                    "Участие в программах амбассадоров брендов в соцсетях (получение товаров за рекламу).",
-                    "Репосты и лайки в TikTok/Instagram за небольшую плату (через сервисы накрутки, но аккуратно)."
-                ],
-                schemes: [
-                    "<b>Схема: Монетизация TikTok через партнёрские программы.</b>\n1. Выберите нишу, которая вам интересна (красота, гаджеты, игры).\n2. Создайте контент, связанный с этой нишей, и регулярно публикуйте видео.\n3. Зарегистрируйтесь в партнёрской программе (например, Admitad, EPN) и получите партнёрские ссылки на товары.\n4. Интегрируйте ссылки в описание профиля TikTok или в свои видео, призывая зрителей к покупке.",
-                    "<b>Схема: Создание и продажа стикерпаков/пресетов.</b>\n1. Определите популярные темы или мемы для стикерпаков, либо создайте уникальные пресеты для фото (Lightroom Mobile, VSCO).\n2. С помощью бесплатных редакторов (PicsArt, Canva) создайте несколько стикеров или пресетов.\n3. Создайте Telegram-канал для демонстрации и продажи.\n4. Продавайте доступ к полному набору за символическую плату или принимайте донаты.",
-                    "<b>Схема: Ведение аккаунта Instagram для фрилансера.</b>\n1. Выберите фрилансера (дизайнер, фотограф), которому нужен активный Instagram.\n2. Предложите свои услуги по созданию контент-плана, написанию постов, подбору визуала.\n3. Используйте бесплатные инструменты для аналитики и постинга.\n4. Договоритесь о фиксированной оплате или проценте от привлечённых клиентов.",
-                    "<b>Схема: Заработок на прямых эфирах в TikTok.</b>\n1. Регулярно проводите прямые эфиры в TikTok, общаясь с аудиторией, играя в игры или показывая свои навыки.\n2. Активно призывайте зрителей отправлять подарки (донаты).\n3. Накапливайте полученные подарки (монеты TikTok) и выводите их в реальные деньги.\n4. Чем интереснее и регулярнее эфиры, тем больше донатов.",
-                    "<b>Схема: Короткие видео для бизнеса.</b>\n1. Найдите малый бизнес (магазин одежды, кондитерская), который хочет продвигаться в TikTok/Reels.\n2. Предложите создание коротких рекламных видеороликов (обзор товаров, процесс работы).\n3. Снимайте контент на смартфон, используйте бесплатные редакторы (InShot, CapCut).\n4. Установите фиксированную плату за каждое видео или пакет услуг."
-                ]
-            },
-            "Без навыков": {
-                ideas: [
-                    "Участие в платных опросах и тестировании продуктов.",
-                    "Выполнение простых заданий на буксах (клики, просмотры рекламы).",
-                    "Сортировка и разметка изображений/текстов на краудсорсинговых платформах.",
-                    "Написание коротких отзывов и комментариев в интернете.",
-                    "Установка мобильных приложений и игр за вознаграждение.",
-                    "Просмотр рекламных видео и выполнение мини-заданий в специальных приложениях.",
-                    "Участие в бонусных программах магазинов (получение кешбэка).",
-                    "Сбор и перепродажа информации из открытых источников (например, подборки акций).",
-                    "Заполнение анкет и регистрация на сайтах за деньги.",
-                    "Перепродажа ненужных вещей на онлайн-барахолках (Авито, Юла).",
-                    "Участие в реферальных программах (приглашение друзей в сервисы за бонусы).",
-                    "Заработок на просмотре капчи (решение капчи за небольшую оплату).",
-                    "Модерация чатов и каналов с простыми правилами.",
-                    "Тестирование игр на начальном этапе (поиск багов).",
-                    "Сбор лайков и подписок в соцсетях для других пользователей."
-                ],
-                schemes: [
-                    "<b>Схема: Заработок на буксах и заданиях.</b>\n1. Зарегистрируйтесь на популярных буксах (SeoFast, Profitcentr, Socpublic).\n2. Выбирайте самые простые задания: клики по рекламе, просмотр сайтов, подписки на соцсети.\n3. Выполняйте задания массово, чтобы набрать минимальную сумму для вывода.\n4. Постепенно осваивайте более сложные задания, чтобы увеличить доход.",
-                    "<b>Схема: Участие в онлайн-опросах.</b>\n1. Зарегистрируйтесь на нескольких сайтах с платными опросами (Anketolog, Opinion, InternetOpros).\n2. Заполните свой профиль максимально подробно, чтобы получать больше подходящих опросов.\n3. Регулярно проверяйте наличие новых опросов и честно отвечайте на вопросы.\n4. Накапливайте баллы/деньги и выводите их на электронный кошелёк или телефон.",
-                    "<b>Схема: Модерация чатов в Telegram.</b>\n1. Найдите популярные Telegram-каналы или чаты, где требуется модератор (часто вакансии публикуются в тематических группах).\n2. Предложите свои услуги, объяснив, что готовы следить за порядком и удалять спам.\n3. Начните с бесплатных проектов для наработки опыта и получения рекомендаций.\n4. После получения опыта и отзывов, предлагайте свои услуги за небольшую плату (от 500-1000 руб./мес. за чат).",
-                    "<b>Схема: Перепродажа ненужных вещей.</b>\n1. Проведите ревизию своих вещей: одежда, книги, техника, которыми не пользуетесь.\n2. Сделайте качественные фотографии и напишите подробное описание для каждого товара.\n3. Разместите объявления на Авито, Юле или в тематических группах в соцсетях.\n4. Договаривайтесь о встрече или отправляйте почтой, получая деньги за то, что вам не нужно.",
-                    "<b>Схема: Заработок на реферальных программах.</b>\n1. Найдите популярные сервисы или приложения, у которых есть реферальная программа (банки, такси, онлайн-игры).\n2. Получите свою уникальную реферальную ссылку.\n3. Распространяйте ссылку среди друзей, знакомых, в соцсетях, на форумах.\n4. Получайте бонусы или деньги за каждого нового пользователя, который зарегистрируется по вашей ссылке."
-                ]
-            },
-            "Быстрые деньги": {
-                ideas: [
-                    "Продажа своих ненужных вещей на Авито/Юле.",
-                    "Выполнение мелких поручений за деньги (помощь с переездом, выгул собак).",
-                    "Сдача макулатуры, металла или пластика в пункты приёма.",
-                    "Участие в качестве массовки или статиста в съёмках.",
-                    "Донорство крови или плазмы (при соответствии требованиям).",
-                    "Продажа изделий ручной работы (если есть заготовки) на местных ярмарках.",
-                    "Помощь соседям с мелкими бытовыми работами (починить кран, собрать мебель).",
-                    "Быстрая уборка квартир или офисов.",
-                    "Раздача листовок или расклейка объявлений.",
-                    "Участие в промо-акциях (дегустации, раздача пробников).",
-                    "Продажа урожая с дачи или выращенных растений.",
-                    "Помощь в организации мероприятий (установка декораций, встреча гостей).",
-                    "Репетиторство по школьным предметам (если хорошо разбираешься).",
-                    "Продажа аккаунтов в онлайн-играх или соцсетях (если есть прокачанные).",
-                    "Сбор грибов, ягод или лекарственных трав для продажи."
-                ],
-                schemes: [
-                    "<b>Схема: Быстрая продажа ненужных вещей.</b>\n1. Соберите все вещи, которые вам больше не нужны, но находятся в хорошем состоянии.\n2. Сделайте несколько качественных фотографий каждого предмета.\n3. Разместите объявления на Авито, Юле, в местных группах в соцсетях с чётким описанием и адекватной ценой.\n4. Оперативно отвечайте на сообщения и договаривайтесь о быстрой встрече или отправке.",
-                    "<b>Схема: Выполнение мелких бытовых услуг.</b>\n1. Составьте список услуг, которые вы можете быстро и качественно выполнить (починить розетку, собрать мебель, выгулять собаку, посидеть с детьми).\n2. Разместите объявления на местных досках, в группах в мессенджерах или предложите услуги соседям.\n3. Установите адекватную цену за свои услуги.\n4. Быстро и качественно выполняйте работу, чтобы получить хорошие отзывы и постоянных клиентов.",
-                    "<b>Схема: Участие в массовых мероприятиях.</b>\n1. Найдите объявления о наборе массовки для съёмок фильмов, сериалов, рекламных роликов или музыкальных клипов (кастинговые агентства, группы в соцсетях).\n2. Отправьте свою заявку, приложив фото и краткую информацию о себе.\n3. Приезжайте на съёмки вовремя и выполняйте указания режиссёра.\n4. Получите оплату в конце съёмочного дня (обычно наличными или на карту).",
-                    "<b>Схема: Сдача вторсырья.</b>\n1. Соберите дома или у знакомых макулатуру (старые газеты, журналы, картон), пластик (бутылки, контейнеры) или металл (жестяные банки).\n2. Найдите ближайшие пункты приёма вторсырья в вашем городе.\n3. Отсортируйте собранное сырьё по категориям.\n4. Отвезите и сдайте вторсырьё, получив за это деньги.",
-                    "<b>Схема: Раздача листовок/проведение промо-акций.</b>\n1. Найдите компании, которые ищут промоутеров или раздатчиков листовок (объявления на сайтах работы, в соцсетях, агентства).\n2. Пройдите инструктаж и получите материалы.\n3. Активно раздавайте листовки в людных местах или участвуйте в промо-акциях.\n4. Получите оплату за отработанные часы или количество распространённых материалов."
-                ]
-            },
-            "Школьнику": {
-                ideas: [
-                    "Помощь с домашними заданиями младшим школьникам.",
-                    "Выгул собак или уход за домашними животными соседей.",
-                    "Мытьё машин соседей за небольшую плату.",
-                    "Продажа своих рисунков, поделок или браслетов.",
-                    "Помощь по дому пожилым людям (сходить в магазин, вынести мусор).",
-                    "Сбор и сдача бутылок или макулатуры.",
-                    "Создание и продажа простых дизайнов для футболок/кружек (принты).",
-                    "Тестирование мобильных игр (поиск багов).",
-                    "Создание контента для TikTok/YouTube (короткие видео, обзоры).",
-                    "Помощь в оформлении праздников (надувать шарики, расставлять декор).",
-                    "Участие в онлайн-опросах для подростков.",
-                    "Сбор ягод, фруктов или грибов для продажи.",
-                    "Раздача листовок или расклейка объявлений.",
-                    "Участие в кликах и простых заданиях на буксах.",
-                    "Создание и продажа стикерпаков для Telegram/WhatsApp."
-                ],
-                schemes: [
-                    "<b>Схема: Помощь по дому/с животными для соседей.</b>\n1. Распечатайте или напишите от руки небольшие объявления о своих услугах (выгул собак, полив цветов, помощь в уборке, поход в магазин).\n2. Разместите объявления на доске объявлений в своём подъезде или районе.\n3. Обсудите стоимость услуг с потенциальными клиентами.\n4. Выполняйте работу ответственно и качественно, чтобы получить рекомендации и постоянных клиентов.",
-                    "<b>Схема: Продажа поделок/рисунков.</b>\n1. Создайте несколько уникальных рисунков, открыток, браслетов или других поделок.\n2. Организуйте небольшую «выставку-продажу» во дворе, на школьной ярмарке или предложите родителям продать через знакомых.\n3. Установите символическую цену за свои работы.\n4. Прислушивайтесь к отзывам, чтобы улучшать свои работы и привлекать больше покупателей.",
-                    "<b>Схема: Заработок на YouTube/TikTok.</b>\n1. Выберите тему, которая вам интересна и в которой вы хорошо разбираетесь (игры, распаковки, обзоры, обучение).\n2. Снимайте короткие, интересные видео на телефон.\n3. Регулярно выкладывайте контент и используйте популярные хештеги.\n4. После набора определённого количества подписчиков (зависит от платформы), вы сможете монетизировать канал через рекламу или партнёрские программы.",
-                    "<b>Схема: Помощь с домашними заданиями.</b>\n1. Если вы хорошо учитесь по каким-то предметам, предложите помощь младшим школьникам или одноклассникам, которым нужна подтяжка.\n2. Договоритесь о времени и месте занятий (у вас дома, у ученика, онлайн).\n3. Установите небольшую плату за час занятий.\n4. Проводите уроки интересно и понятно, чтобы ученики достигали результатов, а вы получали новых клиентов по рекомендациям.",
-                    "<b>Схема: Заработок на сборе вторсырья.</b>\n1. Собирайте дома, у соседей и в школе (с разрешения) пластиковые бутылки, макулатуру, жестяные банки.\n2. Храните их в специально отведённом месте.\n3. Найдите ближайшие пункты приёма вторсырья в вашем городе.\n4. Раз в неделю или по мере накопления сдавайте вторсырьё, получая за это небольшие, но стабильные деньги."
-                ]
-            },
-            "Премиум": { // Отдельная категория для демонстрации премиум контента
-                ideas: [
-                    "Эксклюзивная идея 1 для премиум-пользователей: [Описание]",
-                    "Эксклюзивная идея 2 для премиум-пользователей: [Описание]",
-                    "Эксклюзивная идея 3 для премиум-пользователей: [Описание]"
-                ],
-                schemes: [
-                    "Эксклюзивная схема 1 для премиум-пользователей: [Описание]",
-                    "Эксклюзивная схема 2 для премиум-пользователей: [Описание]"
-                ]
-            }
+// --- DATA ---
+const appData = {
+    // ... (данные категорий и идей остаются без изменений)
+    categories: {
+        online: {
+            name: "Онлайн",
+            ideas: [
+                { title: "Продажа цифровых продуктов", description: "Создавайте и продавайте электронные книги, курсы, шаблоны.", profit: "50-200к₽", time: "2-4ч" },
+                { title: "Dropshipping", description: "Продавайте товары без их закупки.", profit: "30-150к₽", time: "3-5ч" },
+                { title: "Арбитраж трафика", description: "Покупайте трафик дешевле и продавайте дороже.", profit: "40-300к₽", time: "4-6ч" },
+                { title: "Консультации онлайн", description: "Проводите консультации по своей экспертизе.", profit: "30-100к₽", time: "2-3ч" },
+                { title: "Создание сайтов", description: "Разрабатывайте сайты для малого бизнеса.", profit: "50-250к₽", time: "3-5ч" },
+                { title: "Партнерский маркетинг", description: "Продвигайте чужие продукты и получайте комиссию.", profit: "20-150к₽", time: "2-4ч" },
+            ]
         },
-        reviews: [
-            { author: "Анна К.", text: "Отличный бот! Нашла несколько реально рабочих идей, спасибо!" },
-            { author: "Иван П.", text: "Очень удобно и понятно, даже новичок разберется. Рекомендую!" },
-            { author: "Мария С.", text: "Идеи супер, особенно раздел для школьников. Мой сын уже начал зарабатывать!" },
-            { author: "Дмитрий В.", text: "Быстрые деньги — это не миф, а реальность с этим ботом. Проверено!" },
-            { author: "Елена Л.", text: "Люблю стеклянный дизайн Web App, очень стильно смотрится. И контент полезный." }
-        ],
-        user: { // Демо-данные пользователя
-            id: '123456789',
-            username: 'test_user',
-            isPremium: false,
-            referrals: 0
-        }
-    };
+        social: {
+            name: "TikTok / соцсети",
+            ideas: [
+                { title: "Монетизация TikTok", description: "Создавайте вирусный контент и зарабатывайте на рекламе.", profit: "20-500к₽", time: "2-3ч" },
+                { title: "SMM-менеджмент", description: "Управляйте социальными сетями для бизнесов.", profit: "25-100к₽", time: "4-6ч" },
+                { title: "Инфлюенсер-маркетинг", description: "Станьте микро-инфлюенсером и зарабатывайте на рекламе.", profit: "15-200к₽", time: "1-2ч" },
+                { title: "Продажи в Instagram", description: "Создайте магазин в Instagram и продавайте товары.", profit: "30-150к₽", time: "3-5ч" },
+                { title: "Ведение YouTube-канала", description: "Создавайте контент и зарабатывайте на рекламе.", profit: "20-300к₽", time: "4-6ч" },
+            ]
+        },
+        noskills: {
+            name: "Без навыков",
+            ideas: [
+                { title: "Онлайн-опросы", description: "Зарабатывайте на прохождении опросов и выполнении заданий.", profit: "5-25к₽", time: "2-4ч" },
+                { title: "Перепродажа товаров", description: "Покупайте дешевле, продавайте дороже на Avito.", profit: "10-50к₽", time: "3-5ч" },
+                { title: "Кликовые спонсоры", description: "Зарабатывайте на кликах по рекламе и просмотре видео.", profit: "3-15к₽", time: "1-2ч" },
+                { title: "Транскрибация", description: "Переводите аудио и видео в текст.", profit: "10-40к₽", time: "3-5ч" },
+                { title: "Тестирование сайтов", description: "Находите ошибки на сайтах и в приложениях.", profit: "15-60к₽", time: "2-4ч" },
+            ]
+        },
+        quick: {
+            name: "Быстрые деньги",
+            ideas: [
+                { title: "Фриланс-задания", description: "Выполняйте простые задания на фриланс-биржах.", profit: "5-50к₽", time: "2-6ч" },
+                { title: "Аренда имущества", description: "Сдавайте в аренду технику, инструменты, одежду.", profit: "10-80к₽", time: "1ч" },
+                { title: "Курьерская доставка", description: "Работайте курьером в свободное время.", profit: "2-30к₽", time: "4-8ч" },
+                { title: "Продажа фото на стоках", description: "Продавайте свои работы на фотостоках.", profit: "5-40к₽", time: "2-3ч" },
+                { title: "Выгул собак", description: "Выгуливайте собак в своем районе.", profit: "10-30к₽", time: "2-4ч" },
+            ]
+        },
+    },
+    reviews: [
+        { name: "Алексей", avatar: "👨‍💻", rating: "⭐⭐⭐⭐⭐", text: "Отличное приложение! Нашел несколько рабочих схем.", date: "15.03.2024" },
+        { name: "Мария", avatar: "👩‍🎨", rating: "⭐⭐⭐⭐⭐", text: "Очень удобный интерфейс и полезная информация.", date: "12.03.2024" },
+        { name: "Дмитрий", avatar: "👨‍🚀", rating: "⭐⭐⭐⭐", text: "Хорошее приложение для старта, результат есть.", date: "10.03.2024" },
+        { name: "Анна", avatar: "👩‍💼", rating: "⭐⭐⭐⭐⭐", text: "Супер! За месяц вышла на стабильный доход.", date: "08.03.2024" }
+    ],
+    bonusIdeas: [
+        { title: "БОНУС: Создание Telegram-бота", description: "Разработайте и монетизируйте собственного Telegram-бота.", profit: "20-100к₽", time: "5-7ч" }
+    ]
+};
 
-    // --- Инициализация Telegram WebApp ---
-    if (window.Telegram && window.Telegram.WebApp) {
-        Telegram.WebApp.ready();
-        const user = Telegram.WebApp.initDataUnsafe.user;
-        if (user) {
-            appData.user.id = user.id;
-            appData.user.username = user.username || user.first_name;
-            // Можно получить isPremium и referrals из initData, если бот их передает
-            // Например: appData.user.isPremium = Telegram.WebApp.initDataUnsafe.start_param === 'premium';
-            // Для демо пока используем внутренние значения
-        }
-        Telegram.WebApp.expand(); // Разворачиваем WebApp на весь экран
-        Telegram.WebApp.MainButton.setText("На главную").onClick(showMainCategories).show();
+// --- USER MANAGER ---
+class UserManager {
+    constructor(botName) {
+        this.botName = botName;
+        this.users = this.getUsers();
     }
 
-    closeButton.addEventListener('click', () => {
-        if (window.Telegram && window.Telegram.WebApp) {
-            Telegram.WebApp.close();
+    getUsers() {
+        try {
+            return JSON.parse(localStorage.getItem('users_db')) || {};
+        } catch (e) {
+            return {};
+        }
+    }
+
+    saveUsers() {
+        localStorage.setItem('users_db', JSON.stringify(this.users));
+    }
+
+    getOrCreateUser(tgUser) {
+        const defaultUser = {
+            id: tgUser.id,
+            username: tgUser.username || `${tgUser.first_name} ${tgUser.last_name || ''}`,
+            referrals: 0,
+            referred_by: null,
+            rewards: {
+                bonus_ideas: 0,
+                premium_until: null,
+                pro_status: false
+            },
+            is_new: true
+        };
+        
+        if (!this.users[tgUser.id]) {
+            this.users[tgUser.id] = defaultUser;
         } else {
-            alert('Telegram WebApp API не доступен. Закрыть нельзя.');
+            this.users[tgUser.id].is_new = false;
         }
-    });
-
-    // --- Функции рендеринга ---
-
-    function renderCategories() {
-        categoriesNav.innerHTML = '';
-        const fragment = document.createDocumentFragment();
-        for (const categoryName in appData.categories) {
-            const categoryCard = document.createElement('div');
-            categoryCard.classList.add('category-card', 'glass-button'); // Используем стили glass-button для hover эффекта
-            categoryCard.dataset.category = categoryName;
-            categoryCard.innerHTML = `<h3>${categoryName}</h3>`;
-            categoryCard.addEventListener('click', () => showCategoryIdeas(categoryName));
-            fragment.appendChild(categoryCard);
-        }
-        // Добавляем кнопки Отзывы и Профиль как категории
-        const reviewsCard = document.createElement('div');
-        reviewsCard.classList.add('category-card', 'glass-button');
-        reviewsCard.innerHTML = `<h3>Отзывы</h3>`;
-        reviewsCard.addEventListener('click', showReviews);
-        fragment.appendChild(reviewsCard);
-
-        const profileCard = document.createElement('div');
-        profileCard.classList.add('category-card', 'glass-button');
-        profileCard.innerHTML = `<h3>Профиль</h3>`;
-        profileCard.addEventListener('click', showProfile);
-        fragment.appendChild(profileCard);
-
-        categoriesNav.appendChild(fragment);
+        return this.users[tgUser.id];
     }
 
-    function showCategoryIdeas(category) {
-        currentCategory = category;
-        hideAllSections();
-        categoryIdeasSection.classList.remove('hidden');
-        categoryTitle.textContent = category;
-        ideasList.innerHTML = '';
+    processReferral(currentUser, startParam) {
+        if (!startParam || !currentUser.is_new) return;
 
-        const ideas = appData.categories[category].ideas || [];
-        const schemes = appData.categories[category].schemes || [];
+        const refId = startParam.replace('ref_', '');
+        if (refId && this.users[refId] && refId != currentUser.id) {
+            // Засчитываем реферала
+            const referrer = this.users[refId];
+            referrer.referrals += 1;
+            currentUser.referred_by = refId;
+            
+            // Сбрасываем флаг нового пользователя
+            currentUser.is_new = false;
 
-        const contentToDisplay = [...ideas, ...schemes]; // Объединяем идеи и схемы
-
-        if (contentToDisplay.length === 0) {
-            ideasList.innerHTML = '<p>В этой категории пока нет идей или схем.</p>';
-            randomIdeaButton.classList.add('hidden');
-            return;
+            // Применяем награды для пригласившего
+            this.applyRewards(referrer);
+            
+            // Сохраняем изменения
+            this.saveUsers();
+            
+            if (window.Telegram && Telegram.WebApp) {
+                Telegram.WebApp.showAlert(`Вы были приглашены пользователем ${referrer.username}!`);
+            }
         }
-
-        // Показываем первые 10-15 идей/схем
-        for (let i = 0; i < Math.min(15, contentToDisplay.length); i++) {
-            const ideaCard = document.createElement('div');
-            ideaCard.classList.add('idea-card', 'glass-card');
-            ideaCard.innerHTML = `<p>${contentToDisplay[i]}</p>`;
-            ideasList.appendChild(ideaCard);
-        }
-        randomIdeaButton.classList.remove('hidden');
     }
 
-    function showRandomIdea() {
-        if (!currentCategory) return;
-
-        const ideas = appData.categories[currentCategory].ideas || [];
-        const schemes = appData.categories[currentCategory].schemes || [];
-        const contentToDisplay = [...ideas, ...schemes];
-
-        if (contentToDisplay.length === 0) {
-            alert('В этой категории нет идей или схем для отображения.');
-            return;
+    applyRewards(user) {
+        const refCount = user.referrals;
+        
+        // Награда за 1 реферала
+        if (refCount >= 1 && user.rewards.bonus_ideas < 1) {
+            user.rewards.bonus_ideas = 1;
         }
-
-        const randomIndex = Math.floor(Math.random() * contentToDisplay.length);
-        const randomItem = contentToDisplay[randomIndex];
-
-        // Очищаем и показываем только случайную идею
-        ideasList.innerHTML = '';
-        const ideaCard = document.createElement('div');
-        ideaCard.classList.add('idea-card', 'glass-card');
-        ideaCard.innerHTML = `<p>${randomItem}</p>`;
-        ideasList.appendChild(ideaCard);
+        // Награда за 3 реферала (7 дней премиума)
+        if (refCount >= 3) {
+            const now = new Date();
+            const currentPremiumEnd = user.rewards.premium_until ? new Date(user.rewards.premium_until) : now;
+            
+            // Если премиум уже активен, продлеваем на 7 дней. Если нет - даем 7 дней с текущего момента.
+            const newEndDate = (currentPremiumEnd > now ? currentPremiumEnd : now).setDate(currentPremiumEnd.getDate() + 7);
+            
+            if (!user.rewards.premium_until || newEndDate > user.rewards.premium_until) {
+                 user.rewards.premium_until = newEndDate;
+            }
+        }
+        // Награда за 10 рефералов
+        if (refCount >= 10 && !user.rewards.pro_status) {
+            user.rewards.pro_status = true;
+        }
     }
 
-    function showReviews() {
-        hideAllSections();
-        reviewsSection.classList.remove('hidden');
-        reviewsList.innerHTML = '';
+    hasPremium(user) {
+        return user.rewards.premium_until && user.rewards.premium_until > Date.now();
+    }
+}
 
-        appData.reviews.forEach(review => {
-            const reviewCard = document.createElement('div');
-            reviewCard.classList.add('review-card', 'glass-card');
-            reviewCard.innerHTML = `<p>${review.text}</p><p class="review-author">— ${review.author}</p>`;
-            reviewsList.appendChild(reviewCard);
+// --- NAVIGATION & APP LOGIC ---
+class Navigation {
+    constructor() {
+        this.history = ['home'];
+        this.currentScreen = 'home';
+        this.currentCategory = null;
+        this.currentIdeaIndex = 0;
+        this.currentReviewIndex = 0;
+        this.tg = window.Telegram?.WebApp;
+
+        // Инициализация менеджера пользователей
+        this.userManager = new UserManager('your_bot_name'); // TODO: Замените на имя вашего бота
+        const tgUser = this.tg?.initDataUnsafe?.user || { id: '12345', first_name: 'Test', username: 'testuser' };
+        this.currentUser = this.userManager.getOrCreateUser(tgUser);
+        
+        // Обработка реферальной ссылки
+        this.userManager.processReferral(this.currentUser, this.tg?.initDataUnsafe?.start_param);
+        this.userManager.saveUsers();
+
+        this.init();
+    }
+
+    init() {
+        this.setupEventListeners();
+        this.updateNavigation();
+        this.loadDailyIdea();
+        this.loadReview();
+        this.updateProfileStats();
+
+        if (this.tg) {
+            this.tg.ready();
+            this.tg.expand();
+        }
+    }
+
+    setupEventListeners() {
+        document.getElementById('backBtn').addEventListener('click', () => this.goBack());
+        document.getElementById('homeBtn').addEventListener('click', () => this.goHome());
+
+        document.querySelectorAll('.menu-card').forEach(card => {
+            card.addEventListener('click', (e) => this.navigateTo(e.currentTarget.dataset.screen));
         });
+
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', (e) => this.openCategory(e.currentTarget.dataset.category));
+        });
+
+        document.getElementById('nextIdeaBtn').addEventListener('click', () => this.nextIdea());
+        document.getElementById('randomIdeaBtn').addEventListener('click', () => this.randomIdea());
+        document.getElementById('nextReviewBtn').addEventListener('click', () => this.nextReview());
+        document.getElementById('closeAppBtn').addEventListener('click', () => this.tg?.close());
+
+        // Реферальные кнопки
+        document.getElementById('refCopyBtn').addEventListener('click', () => this.copyRefLink());
+        document.getElementById('refInviteBtn').addEventListener('click', () => this.inviteFriends());
     }
 
-    function showProfile() {
-        hideAllSections();
-        profileSection.classList.remove('hidden');
-        userIdSpan.textContent = appData.user.id;
-        usernameSpan.textContent = appData.user.username;
-        userStatusSpan.textContent = appData.user.isPremium ? 'Премиум' : 'Обычный';
-        referralsCountSpan.textContent = appData.user.referrals;
-    }
+    navigateTo(screen) {
+        if (!screen) return;
+        this.showScreen(screen + 'Screen');
+        this.history.push(screen);
+        this.currentScreen = screen;
+        this.updateNavigation();
 
-    function showMainCategories() {
-        hideAllSections();
-        categoriesNav.classList.remove('hidden');
-        // Скрываем MainButton, если она не нужна на главной странице
-        if (window.Telegram && window.Telegram.WebApp) {
-            Telegram.WebApp.MainButton.hide();
+        if (screen === 'referrals') {
+            this.renderReferralsScreen();
+        }
+        if (screen === 'premium') {
+            this.renderPremiumScreen();
+        }
+        if (screen === 'profile') {
+            this.updateProfileStats();
         }
     }
 
-    function hideAllSections() {
-        categoryIdeasSection.classList.add('hidden');
-        reviewsSection.classList.add('hidden');
-        profileSection.classList.add('hidden');
-        categoriesNav.classList.add('hidden'); // Скрываем категории при показе других разделов
+    showScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const newScreen = document.getElementById(screenId);
+        if (newScreen) {
+            newScreen.classList.add('active');
+        }
     }
 
-    // --- Обработчики событий ---
-    randomIdeaButton.addEventListener('click', showRandomIdea);
+    updateNavigation() {
+        const backBtn = document.getElementById('backBtn');
+        const homeBtn = document.getElementById('homeBtn');
+        const navTitle = document.getElementById('navTitle');
 
-    // Изначальная загрузка
-    renderCategories();
-    showMainCategories(); // Показываем главную страницу с категориями по умолчанию
+        const isNotHome = this.history.length > 1;
+        backBtn.style.display = isNotHome ? 'block' : 'none';
+        homeBtn.style.display = isNotHome ? 'block' : 'none';
 
-    // Изменение цвета темы Telegram WebApp
-    if (window.Telegram && window.Telegram.WebApp) {
-        Telegram.WebApp.onEvent('themeChanged', () => {
-            // В данном случае, так как у нас фиксированная темная тема,
-            // мы не будем менять CSS. Но здесь можно было бы динамически
-            // менять переменные CSS или классы в зависимости от Telegram.WebApp.themeParams.
-        });
+        const titles = {
+            home: 'Монетизация Идей',
+            categories: 'Категории',
+            categoryView: this.currentCategory ? appData.categories[this.currentCategory].name : 'Категория',
+            daily: 'Схема дня',
+            premium: 'Премиум',
+            profile: 'Профиль',
+            reviews: 'Отзывы',
+            referrals: 'Пригласи друга'
+        };
+        navTitle.textContent = titles[this.currentScreen] || 'Монетизация Идей';
     }
+
+    goBack() {
+        if (this.history.length > 1) {
+            this.history.pop();
+            const prevScreen = this.history[this.history.length - 1];
+            this.navigateTo(prevScreen);
+        }
+    }
+
+    goHome() {
+        this.history = [];
+        this.navigateTo('home');
+    }
+    
+    updateProfileStats() {
+        const user = this.currentUser;
+        if (!user) return;
+
+        document.getElementById('userName').textContent = user.username;
+        document.getElementById('userUsername').textContent = `@${user.username}`;
+        
+        const viewedIdeas = parseInt(localStorage.getItem('viewedIdeas') || '0');
+        document.getElementById('viewedIdeas').textContent = viewedIdeas;
+        
+        // Добавляем отображение статуса PRO
+        const proStatusEl = document.querySelector('.profile-name');
+        if (user.rewards.pro_status && !proStatusEl.textContent.includes('PRO')) {
+            proStatusEl.textContent += ' (PRO)';
+        }
+    }
+
+    // --- Логика реферальной системы ---
+    renderReferralsScreen() {
+        const user = this.currentUser;
+        const botName = this.userManager.botName;
+        
+        document.getElementById('refUserId').textContent = user.id;
+        document.getElementById('refCount').textContent = user.referrals;
+        
+        const refLink = `https://t.me/${botName}?start=ref_${user.id}`;
+        document.getElementById('refLinkInput').value = refLink;
+
+        // Обновление прогресс-баров
+        this.updateProgressBar(user.referrals, 1, 'progress-1');
+        this.updateProgressBar(user.referrals, 3, 'progress-3');
+        this.updateProgressBar(user.referrals, 10, 'progress-10');
+    }
+    
+    updateProgressBar(current, target, elementId) {
+        const progress = Math.min((current / target) * 100, 100);
+        document.getElementById(elementId).style.width = `${progress}%`;
+        document.getElementById(`${elementId}-text`).textContent = `${Math.min(current, target)} / ${target}`;
+        
+        const card = document.getElementById(`rewardCard-${target}`);
+        if (current >= target) {
+            card.classList.add('completed');
+            card.classList.remove('active');
+        } else if (current >= (target > 1 ? (target === 3 ? 1 : 3) : 0)) {
+            card.classList.add('active');
+            card.classList.remove('completed');
+        }
+    }
+
+    copyRefLink() {
+        const refLinkInput = document.getElementById('refLinkInput');
+        refLinkInput.select();
+        document.execCommand('copy');
+        this.tg?.showAlert('Ссылка скопирована!');
+    }
+
+    inviteFriends() {
+        const refLink = document.getElementById('refLinkInput').value;
+        const text = `Привет! Зацени крутое приложение с идеями по заработку. Регистрируйся по моей ссылке и получай бонусы: ${refLink}`;
+        this.tg?.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent(text)}`);
+    }
+
+    renderPremiumScreen() {
+        const buyView = document.getElementById('premium-buy-view');
+        const activeView = document.getElementById('premium-active-view');
+        
+        if (this.userManager.hasPremium(this.currentUser)) {
+            buyView.style.display = 'none';
+            activeView.style.display = 'block';
+            
+            const endDate = new Date(this.currentUser.rewards.premium_until).toLocaleDateString('ru-RU');
+            document.getElementById('premium-end-date').textContent = endDate;
+        } else {
+            buyView.style.display = 'block';
+            activeView.style.display = 'none';
+        }
+    }
+
+    // --- Остальная логика без изменений ---
+    openCategory(category) {
+        this.currentCategory = category;
+        this.currentIdeaIndex = 0;
+        this.navigateTo('categoryView');
+        setTimeout(() => this.loadIdea(), 100);
+    }
+
+    loadIdea() {
+        if (!this.currentCategory) return;
+        const category = appData.categories[this.currentCategory];
+        const idea = category.ideas[this.currentIdeaIndex];
+        
+        document.getElementById('categoryTitle').textContent = category.name;
+        document.getElementById('ideaNumber').textContent = `Идея #${this.currentIdeaIndex + 1}`;
+        document.getElementById('ideaTitle').textContent = idea.title;
+        document.getElementById('ideaDescription').textContent = idea.description;
+        document.getElementById('ideaProfit').textContent = idea.profit;
+        document.getElementById('ideaTime').textContent = idea.time;
+
+        const viewedIdeas = parseInt(localStorage.getItem('viewedIdeas') || '0') + 1;
+        localStorage.setItem('viewedIdeas', viewedIdeas);
+        this.updateProfileStats();
+    }
+
+    nextIdea() {
+        if (!this.currentCategory) return;
+        const category = appData.categories[this.currentCategory];
+        this.currentIdeaIndex = (this.currentIdeaIndex + 1) % category.ideas.length;
+        this.loadIdea();
+    }
+
+    randomIdea() {
+        if (!this.currentCategory) return;
+        const category = appData.categories[this.currentCategory];
+        this.currentIdeaIndex = Math.floor(Math.random() * category.ideas.length);
+        this.loadIdea();
+    }
+
+    loadDailyIdea() {
+        const today = new Date().toDateString();
+        let dailyIdea = JSON.parse(localStorage.getItem('dailyIdea'));
+        if (localStorage.getItem('dailyIdeaDate') !== today) {
+            const allIdeas = Object.values(appData.categories).flatMap(c => c.ideas);
+            dailyIdea = allIdeas[Math.floor(Math.random() * allIdeas.length)];
+            localStorage.setItem('dailyIdea', JSON.stringify(dailyIdea));
+            localStorage.setItem('dailyIdeaDate', today);
+        }
+        if (dailyIdea) {
+            document.getElementById('dailyTitle').textContent = dailyIdea.title;
+            document.getElementById('dailyDescription').textContent = dailyIdea.description;
+            document.getElementById('dailyProfit').textContent = dailyIdea.profit;
+            document.getElementById('dailyTime').textContent = dailyIdea.time;
+        }
+    }
+
+    loadReview() {
+        const review = appData.reviews[this.currentReviewIndex];
+        document.getElementById('reviewAvatar').textContent = review.avatar;
+        document.getElementById('reviewName').textContent = review.name;
+        document.getElementById('reviewRating').textContent = review.rating;
+        document.getElementById('reviewText').textContent = review.text;
+        document.getElementById('reviewDate').textContent = review.date;
+    }
+
+    nextReview() {
+        this.currentReviewIndex = (this.currentReviewIndex + 1) % appData.reviews.length;
+        this.loadReview();
+    }
+}
+
+// --- APP INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', () => {
+    new Navigation();
 });
