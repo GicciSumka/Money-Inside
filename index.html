@@ -2,256 +2,392 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Монетизация Идей</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EarnHub — Инсайды по заработку</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="tg-theme">
     <div class="app-container">
-        <!-- Навигация -->
-        <nav class="nav-bar">
-            <button class="nav-btn" id="backBtn" style="display: none;">🔙 Назад</button>
-            <button class="nav-btn" id="homeBtn" style="display: none;">🏠 Главная</button>
-            <div class="nav-title" id="navTitle">Монетизация Идей</div>
-        </nav>
-
-        <!-- Главный экран -->
-        <div class="screen active" id="homeScreen">
-            <div class="screen-content">
-                <h1 class="main-title">Добро пожаловать!</h1>
-                <div class="menu-grid">
-                    <div class="menu-card" data-screen="categories">
-                        <div class="card-icon">📂</div>
-                        <div class="card-title">Категории</div>
-                        <div class="card-desc">Выберите направление</div>
-                    </div>
-                    <div class="menu-card" data-screen="schemes">
-                        <div class="card-icon">💡</div>
-                        <div class="card-title">Схемы</div>
-                        <div class="card-desc">Все доступные схемы</div>
-                    </div>
-                    <div class="menu-card" data-screen="daily">
-                        <div class="card-icon">⭐</div>
-                        <div class="card-title">Схема дня</div>
-                        <div class="card-desc">Лучшая идея сегодня</div>
-                    </div>
-                    <div class="menu-card" data-screen="reviews">
-                        <div class="card-icon">💬</div>
-                        <div class="card-title">Отзывы</div>
-                        <div class="card-desc">Что говорят пользователи</div>
-                    </div>
-                    <div class="menu-card" data-screen="premium">
-                        <div class="card-icon">💎</div>
-                        <div class="card-title">Премиум</div>
-                        <div class="card-desc">Эксклюзивные схемы</div>
-                    </div>
-                    <div class="menu-card" data-screen="profile">
-                        <div class="card-icon">👤</div>
-                        <div class="card-title">Профиль</div>
-                        <div class="card-desc">Ваш аккаунт</div>
-                    </div>
-                    <div class="menu-card" data-screen="referrals">
-                        <div class="card-icon">👥</div>
-                        <div class="card-title">Рефералы</div>
-                        <div class="card-desc">Пригласи друга</div>
-                    </div>
+        <div class="onboarding-overlay" id="onboardingOverlay">
+            <div class="onboarding-card glass-card">
+                <div class="onboarding-title">Выберите путь</div>
+                <div class="onboarding-subtitle">Займёт 5 секунд. Настроим интерфейс под вас.</div>
+                <div class="role-grid">
+                    <button class="role-btn" data-role="freelancer">
+                        <div class="role-icon"><i class="fas fa-user-astronaut"></i></div>
+                        <div class="role-name">Фрилансер</div>
+                        <div class="role-desc">Вижу заказы, откликаюсь, расту по уровню</div>
+                    </button>
+                    <button class="role-btn" data-role="employer">
+                        <div class="role-icon"><i class="fas fa-briefcase"></i></div>
+                        <div class="role-name">Работодатель</div>
+                        <div class="role-desc">Создаю заказы и быстро нахожу исполнителей</div>
+                    </button>
                 </div>
             </div>
         </div>
-
-        <!-- Экран категорий -->
-        <div class="screen" id="categoriesScreen">
-            <div class="screen-content">
-                <h2 class="screen-title">Выберите категорию</h2>
-                <div class="categories-grid">
-                    <div class="category-card" data-category="online">
-                        <div class="category-icon">💻</div>
-                        <div class="category-title">Онлайн</div>
-                        <div class="category-count">25 идей</div>
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <button class="menu-btn" id="menuBtn" aria-label="Открыть меню">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="channel-info">
+                    <div class="channel-avatar">
+                        <i class="fas fa-bolt"></i>
                     </div>
-                    <div class="category-card" data-category="social">
-                        <div class="category-icon">🎬</div>
-                        <div class="category-title">TikTok / соцсети</div>
-                        <div class="category-count">25 идей</div>
-                    </div>
-                    <div class="category-card" data-category="noskills">
-                        <div class="category-icon">🧠</div>
-                        <div class="category-title">Без навыков</div>
-                        <div class="category-count">27 идей</div>
-                    </div>
-                    <div class="category-card" data-category="quick">
-                        <div class="category-icon">⚡</div>
-                        <div class="category-title">Быстрые деньги</div>
-                        <div class="category-count">21 идея</div>
+                    <div class="channel-meta">
+                        <h1 class="channel-name" id="screenTitle">EarnHub | Инсайды <i class="fas fa-check-circle verified-icon"></i></h1>
+                        <span class="subscribers-count">12.4k подписчиков</span>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Экран схем -->
-        <div class="screen" id="schemesScreen">
-            <div class="screen-content">
-                <h2 class="screen-title">Все Схемы</h2>
-                <div class="schemes-list" id="schemesList">
-                    <!-- Схемы будут загружены сюда через JavaScript -->
-                    <p>Загрузка схем...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Экран категории -->
-        <div class="screen" id="categoryViewScreen">
-            <div class="screen-content">
-                <h2 class="screen-title" id="categoryTitle">Категория</h2>
-                <div class="idea-card">
-                    <div class="idea-number" id="ideaNumber">Идея #1</div>
-                    <h3 class="idea-title" id="ideaTitle">Название идеи</h3>
-                    <p class="idea-description" id="ideaDescription">Описание идеи</p>
-                    <div class="idea-profit">💰 Доход: <span id="ideaProfit">0₽</span></div>
-                    <div class="idea-time">⏱️ Время: <span id="ideaTime">0 часов</span></div>
-                </div>
-                <div class="idea-actions">
-                    <button class="action-btn primary" id="nextIdeaBtn">➡️ Следующая</button>
-                    <button class="action-btn secondary" id="randomIdeaBtn">🎲 Случайная</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Экран схемы дня -->
-        <div class="screen" id="dailyScreen">
-            <div class="screen-content">
-                <h2 class="screen-title">⭐ Схема дня</h2>
-                <div class="daily-card">
-                    <div class="daily-badge">Лучшая за сегодня</div>
-                    <h3 class="idea-title" id="dailyTitle">Название схемы</h3>
-                    <p class="idea-description" id="dailyDescription">Описание схемы</p>
-                    <div class="idea-profit">💰 Доход: <span id="dailyProfit">0₽</span></div>
-                    <div class="idea-time">⏱️ Время: <span id="dailyTime">0 часов</span></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Экран премиум -->
-        <div class="screen" id="premiumScreen">
-            <div class="screen-content">
-                <div id="premium-buy-view">
-                    <h2 class="screen-title">💎 Премиум доступ</h2>
-                    <div class="premium-card">
-                        <div class="premium-icon">💎</div>
-                        <h3>Эксклюзивные схемы</h3>
-                        <p>Получите доступ к закрытым методам монетизации</p>
-                        <ul class="premium-features">
-                            <li>🔓 Доступ к премиум схемам</li>
-                            <li>🚀 Приоритетная поддержка</li>
-                            <li>📊 Аналитика доходности</li>
-                            <li>💡 Персональные рекомендации</li>
-                        </ul>
-                        <button class="premium-btn">Купить премиум - 990₽</button>
-                    </div>
-                </div>
-                <div id="premium-active-view" style="display: none;">
-                    <h2 class="screen-title">💎 Премиум активен</h2>
-                    <div class="premium-card">
-                        <p>Ваш премиум-доступ активен до:</p>
-                        <h3 id="premium-end-date">-</h3>
-                        <p>Вы получаете доступ ко всем эксклюзивным материалам.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Экран профиля -->
-        <div class="screen" id="profileScreen">
-            <div class="screen-content">
-                <h2 class="screen-title">👤 Профиль</h2>
-                <div class="profile-card">
-                    <div class="profile-avatar" id="userAvatar">👤</div>
-                    <div class="profile-name" id="userName">Пользователь</div>
-                    <div class="profile-username" id="userUsername">@username</div>
-                    <div class="profile-stats">
-                        <div class="stat-item">
-                            <div class="stat-value" id="viewedIdeas">0</div>
-                            <div class="stat-label">Просмотрено идей</div>
+                <div class="header-actions">
+                    <div class="header-controls">
+                        <div class="role-pill" id="headerRole">Гость</div>
+                        <div class="level-badge" id="levelBadge">
+                            <span class="lvl-text">LVL 1</span>
+                            <div class="lvl-bar"><div class="lvl-fill"></div></div>
+                            <span class="lvl-xp" id="xpText">0/100 XP</span>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-value" id="favoriteIdeas">0</div>
-                            <div class="stat-label">Избранных</div>
+                        <label class="toggle-switch" title="Режим новичка">
+                            <input type="checkbox" id="beginnerModeToggle">
+                            <span class="slider"></span>
+                            <span class="toggle-label">🐣</span>
+                        </label>
+                        <div id="userBadgeTop" class="user-badge free">FREE</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Screens Container -->
+        <div class="screens-container">
+            <!-- Feed Screen -->
+            <section class="screen active" id="feedScreen">
+                <div class="feed-scroll">
+                    <div class="glass-card" style="padding: 16px; margin-bottom: 14px;">
+                        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+                            <div>
+                                <div style="font-weight: 900; font-size: 1.05rem;">Личный дашборд</div>
+                                <div style="color: var(--tg-text-secondary); font-size: 0.85rem; line-height: 1.35; margin-top: 6px;">
+                                    Выполняйте задания, ловите горячие возможности и прокачивайте уровень.
+                                </div>
+                            </div>
+                            <div style="width: 44px; height: 44px; border-radius: 16px; display:flex; align-items:center; justify-content:center; background: rgba(36,129,204,0.14); color: var(--tg-link);">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
                         </div>
                     </div>
-                    <button class="close-app-btn" id="closeAppBtn">Закрыть приложение</button>
+
+                    <!-- Free Views Counter -->
+                    <div id="freeViewsBanner" class="views-banner">
+                        <span>🔓 Осталось бесплатных просмотров: <strong id="freeViewsRemaining">3</strong></span>
+                    </div>
+
+                    <div class="grid-sections">
+                        <div class="section-block">
+                            <div class="section-head">
+                                <h2 class="section-label" style="padding:0;">Задания на сегодня</h2>
+                                <span class="section-hint">1–5 минут</span>
+                            </div>
+                            <div class="tasks-list" id="dailyTasksContainer"></div>
+                        </div>
+
+                        <div class="section-block">
+                            <div class="section-head">
+                                <h2 class="section-label" style="padding:0;">Горящие возможности</h2>
+                                <span class="section-hint">HOT</span>
+                            </div>
+                            <div class="hot-scroll" id="hotOffersContainer"></div>
+                        </div>
+                    </div>
+
+                    <div class="posts-container" id="postsContainer">
+                        <!-- Posts will be injected here by JS -->
+                    </div>
+
+                    <!-- Cases Section -->
+                    <div class="cases-section">
+                        <h2 class="section-label">Результаты учеников</h2>
+                        <div class="cases-scroll">
+                            <div class="case-card glass-card">
+                                <div class="case-header">
+                                    <span class="case-name">Иван, 17 лет</span>
+                                    <span class="case-profit">+$80</span>
+                                </div>
+                                <p>Заработал за 2 дня на простых заданиях</p>
+                            </div>
+                            <div class="case-card glass-card">
+                                <div class="case-header">
+                                    <span class="case-name">Артём</span>
+                                    <span class="case-profit">+$10/день</span>
+                                </div>
+                                <p>Вышел на стабильный доход через неделю</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Popular Screen -->
+            <section class="screen" id="popularScreen">
+                <div class="popular-content">
+                    <h2 class="section-label">Топ 3 способа недели</h2>
+                    <div class="popular-posts" id="popularPostsContainer">
+                        <!-- Popular posts will be injected here by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <section class="screen" id="freelanceScreen">
+                <div class="freelance-content">
+                    <div class="freelance-header glass-card">
+                        <div>
+                            <h2 id="marketTitle">Биржа заказов</h2>
+                            <p class="muted">Живой рынок задач, срочные предложения и HOT-бейджи</p>
+                        </div>
+                        <button class="btn-create" id="btnCreateOrder" style="display:none;">
+                            <i class="fas fa-plus"></i> Создать заказ
+                        </button>
+                    </div>
+                    <div class="orders-list" id="ordersContainer"></div>
+                </div>
+            </section>
+
+            <!-- Full Calculator Screen -->
+            <section class="screen" id="calculatorScreen">
+                <div class="calculator-page-content">
+                    <div class="calc-header">
+                        <h2>Оценка потенциала</h2>
+                        <p>Узнайте, сколько вы можете зарабатывать реально</p>
+                    </div>
+
+                    <div class="calc-main-card glass-card">
+                        <div class="calc-settings">
+                            <div class="calc-group">
+                                <label>Ваш уровень</label>
+                                <div class="segment-control" id="pageLevelControl">
+                                    <button class="segment-btn active" data-value="beginner">Новичок</button>
+                                    <button class="segment-btn" data-value="basic">Базовый</button>
+                                    <button class="segment-btn" data-value="pro">Профи</button>
+                                </div>
+                            </div>
+
+                            <div class="calc-group">
+                                <label>Формат работы</label>
+                                <select id="pageActivityType" class="calc-select">
+                                    <option value="tasks">Простые задания</option>
+                                    <option value="freelance">Фриланс</option>
+                                    <option value="services">Онлайн-услуги</option>
+                                </select>
+                            </div>
+
+                            <div class="calc-group">
+                                <div class="label-row">
+                                    <label>Время в день</label>
+                                    <span class="range-value"><span id="pageSelectedHours">4</span> ч.</span>
+                                </div>
+                                <input type="range" id="pageWorkHoursRange" min="1" max="10" value="4" class="calc-range">
+                            </div>
+
+                            <div class="calc-group">
+                                <div class="mode-toggle-row">
+                                    <label>Режим прогноза</label>
+                                    <div class="mode-switch" id="forecastMode">
+                                        <button class="mode-btn active" data-value="realistic">Реалистично</button>
+                                        <button class="mode-btn" data-value="optimistic">Оптимистично</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calc-results-v3" id="calcResults">
+                            <div class="result-item-v3">
+                                <div class="res-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                                <div class="res-info">
+                                    <span class="res-label">Потенциал дохода</span>
+                                    <span class="res-value" id="pageEstimatedIncome">$100 - $300</span>
+                                </div>
+                            </div>
+                            <div class="result-item-v3">
+                                <div class="res-icon"><i class="fas fa-bolt"></i></div>
+                                <div class="res-info">
+                                    <span class="res-label">Первый результат</span>
+                                    <span class="res-value" id="pageTimeToResult">3-5 дней</span>
+                                </div>
+                            </div>
+                            <div class="result-item-v3">
+                                <div class="res-icon"><i class="fas fa-chart-pie"></i></div>
+                                <div class="res-info">
+                                    <span class="res-label">Вероятность успеха</span>
+                                    <div class="res-progress">
+                                        <div class="res-progress-fill" id="pageSuccessRate"></div>
+                                    </div>
+                                    <span class="res-percent" id="pageSuccessPercent">75%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calc-actions-v3">
+                            <button class="btn-recalc" id="btnRecalc">
+                                <i class="fas fa-sync-alt"></i> Пересчитать
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="history-section">
+                        <h3 class="section-label">История расчётов</h3>
+                        <div class="history-list" id="calcHistory">
+                            <!-- History items injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Screen -->
+            <section class="screen" id="profileScreen">
+                <div class="profile-content">
+                    <div class="profile-card glass-card">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h2 id="profileName">Пользователь #1234</h2>
+                        <div id="profileStatus" class="status-badge free">Бесплатный пользователь</div>
+                        
+                        <div class="profile-balance">
+                            <span class="balance-label">Баланс</span>
+                            <span class="balance-value" id="userBalance">$0.00</span>
+                        </div>
+                        
+                        <div class="profile-stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-value" id="statsOpened">0</span>
+                                <span class="stat-label">Открыто</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="statsViews">0</span>
+                                <span class="stat-label">Просмотров</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value" id="statsOrders">0</span>
+                                <span class="stat-label">Заказов</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="action-item" id="buyPremiumProfile">
+                            <i class="fas fa-crown"></i>
+                            <span>Купить Premium</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="action-item" id="resetData">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Выйти (Сброс)</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-head">
+                <div class="sidebar-brand">
+                    <div class="sidebar-logo"><i class="fas fa-bolt"></i></div>
+                    <div>
+                        <div class="sidebar-title">EarnHub</div>
+                        <div class="sidebar-subtitle" id="sidebarRole">Гость</div>
+                    </div>
+                </div>
+                <button class="sidebar-close" id="sidebarClose" aria-label="Закрыть">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="sidebar-item active" data-screen="feedScreen">
+                    <i class="fas fa-home"></i>
+                    <span>Главная</span>
+                </button>
+                <button class="sidebar-item" data-screen="popularScreen">
+                    <i class="fas fa-fire"></i>
+                    <span>Популярное</span>
+                </button>
+                <button class="sidebar-item" data-screen="freelanceScreen">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Фриланс</span>
+                </button>
+                <button class="sidebar-item" data-screen="calculatorScreen">
+                    <i class="fas fa-calculator"></i>
+                    <span>Расчёт</span>
+                </button>
+                <button class="sidebar-item" data-screen="profileScreen">
+                    <i class="fas fa-user"></i>
+                    <span>Профиль</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Content Detail View (Hidden by default) -->
+        <div class="content-view" id="contentView">
+            <header class="view-header">
+                <button class="back-btn" id="backBtn">
+                    <i class="fas fa-chevron-left"></i> Назад
+                </button>
+                <div class="view-title">Пост</div>
+                <div class="view-actions">
+                    <i class="fas fa-ellipsis-v"></i>
+                </div>
+            </header>
+            <div class="view-scroll" id="viewScroll">
+                <div class="view-content" id="viewContent">
+                    <!-- Detail content here -->
                 </div>
             </div>
         </div>
 
-        <!-- Экран отзывов -->
-        <div class="screen" id="reviewsScreen">
-            <div class="screen-content">
-                <h2 class="screen-title">Отзывы</h2>
-                <div class="review-carousel">
-                    <div class="review-card" id="reviewCard">
-                        <div class="review-avatar" id="reviewAvatar">👤</div>
-                        <div class="review-name" id="reviewName">Имя</div>
-                        <div class="review-rating" id="reviewRating">⭐⭐⭐⭐⭐</div>
-                        <p class="review-text" id="reviewText">Отзыв</p>
-                        <div class="review-date" id="reviewDate">01.01.2024</div>
+        <!-- Paywall Modal -->
+        <div class="modal-overlay" id="paywallModal">
+            <div class="modal">
+                <div class="modal-indicator"></div>
+                <div class="modal-body">
+                    <div class="premium-icon">
+                        <i class="fas fa-crown"></i>
+                        <div class="icon-glow"></div>
                     </div>
-                    <button class="next-review-btn" id="nextReviewBtn">Следующий отзыв ➡️</button>
+                    <h2>Unlock Premium Access</h2>
+                    <p class="modal-subtitle">Разблокируй все методы заработка и увеличь свой доход</p>
+                    
+                    <div class="benefits-grid">
+                        <div class="benefit-item">
+                            <i class="fas fa-unlock-alt"></i>
+                            <span>Все способы заработка</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-rocket"></i>
+                            <span>Готовые шаблоны</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-infinity"></i>
+                            <span>Безлимитный доступ</span>
+                        </div>
+                    </div>
+
+                    <div class="price-selection">
+                        <div class="price-box active">
+                            <span class="term">Premium</span>
+                            <span class="price">Бесплатно</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-buy" id="confirmPurchase">
+                        <i class="fas fa-bolt"></i> Активировать сейчас
+                    </button>
+                    <button class="btn-close" id="closeModal">Продолжить в Standard</button>
                 </div>
             </div>
-        </div>
-
-        <!-- Экран рефералов -->
-        <div class="screen" id="referralsScreen">
-            <div class="screen-content">
-                <h2 class="screen-title">Пригласи друга</h2>
-
-                <div class="referral-card">
-                    <div class="referral-info">
-                        <p>Ваш ID: <strong id="refUserId">-</strong></p>
-                        <p>Приглашено: <strong id="refCount">0</strong> друзей</p>
-                    </div>
-                    <div class="referral-link-section">
-                        <input type="text" id="refLinkInput" readonly value="">
-                        <button id="refCopyBtn">Копировать</button>
-                    </div>
-                    <button class="action-btn primary" id="refInviteBtn">Пригласить друзей</button>
-                </div>
-
-                <div class="rewards-progress">
-                    <h3 class="rewards-title">Награды за приглашения</h3>
-                    <div class="reward-card active" id="rewardCard-1">
-                        <p class="reward-goal"><strong>1 друг:</strong> +1 бонусная идея</p>
-                        <div class="progress-bar-container"><div class="progress-bar-fill" id="progress-1" style="width: 0%;"></div></div>
-                        <p class="progress-text" id="progress-1-text">0 / 1</p>
-                    </div>
-                    <div class="reward-card" id="rewardCard-3">
-                        <p class="reward-goal"><strong>3 друга:</strong> Доступ к премиум</p>
-                        <div class="progress-bar-container"><div class="progress-bar-fill" id="progress-3" style="width: 0%;"></div></div>
-                        <p class="progress-text" id="progress-3-text">0 / 3</p>
-                    </div>
-                    <div class="reward-card" id="rewardCard-10">
-                        <p class="reward-goal"><strong>10 друзей:</strong> PRO статус</p>
-                        <div class="progress-bar-container"><div class="progress-bar-fill" id="progress-10" style="width: 0%;"></div></div>
-                        <p class="progress-text" id="progress-10-text">0 / 10</p>
-                    </div>
-                </div>
-
-                <div class="bonus-event-card">
-                    <p>🔥 <strong>Событие:</strong> Удвоение награды активно!</p>
-                    <p>Осталось: <span id="bonusTimeLeft">23:59:59</span></p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Custom Alert Modal -->
-    <div id="customAlertModal" class="modal-overlay">
-        <div class="modal-content">
-            <h3 id="customAlertTitle" class="modal-title">Внимание</h3>
-            <p id="customAlertMessage" class="modal-message"></p>
-            <button class="action-btn primary modal-button" id="customAlertOkBtn">ОК</button>
         </div>
     </div>
 
