@@ -107,10 +107,34 @@ body {
     z-index: 10;
 }
 
+@media screen and (max-width: 380px) {
+    .app-header {
+        padding: 10px 12px;
+    }
+}
+
 .header-controls {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 380px) {
+    .header-controls {
+        gap: 6px;
+    }
+    
+    .header-controls .user-badge {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+    }
+    
+    .header-controls .role-pill {
+        font-size: 0.7rem;
+        padding: 5px 10px;
+    }
 }
 
 .menu-btn {
@@ -528,13 +552,27 @@ body {
 }
 
 .hot-card {
-    min-width: 180px;
-    padding: 14px;
+    min-width: 140px;
+    max-width: 160px;
+    padding: 12px;
     border-radius: 18px;
     background: linear-gradient(135deg, rgba(255, 82, 82, 0.08), rgba(255, 255, 255, 0.03));
     border: 1px solid rgba(255, 82, 82, 0.18);
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
+}
+
+@media screen and (max-width: 380px) {
+    .hot-card {
+        min-width: 130px;
+        max-width: 140px;
+        padding: 10px;
+    }
+    
+    .hot-title {
+        font-size: 0.85rem;
+    }
 }
 
 .hot-timer {
@@ -1381,6 +1419,33 @@ body {
 .stat-label {
     font-size: 0.75rem;
     color: var(--tg-text-secondary);
+}
+
+.profile-ac.task-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    min-height: 56px;
+    gap: 10px;
+}
+
+@media screen and (max-width: 380px) {
+    .task-item {
+        padding: 10px 12px;
+        min-height: 52px;
+    }
+    
+    .task-item h4 {
+        font-size: 0.9rem;
+    }
+    
+    .task-xp {
+        font-size: 0.75rem;
+    }
 }
 
 .profile-actions {
