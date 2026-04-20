@@ -26,6 +26,7 @@
 body {
     background-color: var(--tg-secondary-bg);
     color: var(--tg-text);
+    overflow: hidden;
     height: 100vh;
     width: 100vw;
     -webkit-font-smoothing: antialiased;
@@ -36,12 +37,10 @@ body {
 .app-container {
     width: 100%;
     max-width: 480px;
-    height: 100%;
-    min-height: 100vh;
+    height: 100vh;
     margin: 0 auto;
     position: relative;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
     background: var(--tg-bg);
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
 }
@@ -61,12 +60,11 @@ body {
         justify-content: center;
         align-items: center;
         background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        overflow: hidden;
     }
     
     .app-container {
         border-radius: 0;
-        height: 100%;
+        height: 100vh;
         max-height: 900px;
     }
 }
@@ -119,8 +117,22 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Не даем разваливаться */
     justify-content: flex-end;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.mode-badge {
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap; /* Чтобы текст не переносился */
+    flex-shrink: 1;      /* Позволяем badge уменьшаться */
 }
 
 @media screen and (max-width: 380px) {
@@ -620,9 +632,12 @@ body {
 }
 
 .freelance-header h2 {
-    font-size: 1.1rem;
-    font-weight: 900;
-    margin-bottom: 6px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--tg-text);
+    word-break: break-word; /* Переносим длинные слова */
+    max-width: 100%;
 }
 
 .muted {
@@ -1286,11 +1301,14 @@ body {
 }
 
 .screen {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    flex: 1;
+    height: 100%;
     display: none;
     flex-direction: column;
-    overflow: hidden;
+    padding: 0 0 70px; /* Padding for bottom nav */
 }
 
 .screen.active {
